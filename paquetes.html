@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Paquetes · Ventanilla Viajes</title>
+<meta name="description" content="Agencia de viajes con salidas desde Cali. Aborde nuestro vuelo virtual, conozca Eje Cafetero, Cartagena, San Andrés, Cancún y Punta Cana desde la ventanilla y cotice su paquete por WhatsApp.">
+<meta property="og:title" content="Ventanilla Viajes · Viaje antes de viajar">
+<meta property="og:description" content="Aborde nuestro vuelo virtual y conozca cada destino desde la ventanilla.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1515102597191-fe409fca9804?auto=format&fit=crop&q=80&w=1200&h=630">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ink:#0a101c; --navy:#0f1d36; --navy-2:#132544; --ivory:#f4f1ea; --paper:#faf8f3; --line:#e2dccf;
+  --text:#1a2233; --muted:#6b6457; --brass:#c8a36a; --brass-2:#e2c48f; --brass-d:#9a7438;
+  --display:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-d)}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.02;margin:0;text-wrap:balance}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:15px 24px;border-radius:8px;border:1px solid transparent;text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s,transform .15s;font-family:var(--body)}
+.btn:active{transform:scale(.98)}
+.btn svg{width:18px;height:18px}
+.btn-brass{background:var(--brass);color:#1a1205}
+.btn-brass:hover{background:var(--brass-2)}
+.btn-line{border-color:rgba(255,255,255,.45);color:#fff;background:rgba(255,255,255,.04)}
+.btn-line:hover{background:rgba(255,255,255,.12)}
+.btn-navy{background:var(--navy);color:var(--ivory)}
+.btn-navy:hover{background:var(--navy-2)}
+.btn-wa{background:#1f7a4a;color:#fff}
+.btn-wa:hover{background:#25915a}
+
+/* header */
+.top{position:fixed;inset:0 0 auto;z-index:20;transition:background .3s,box-shadow .3s;padding-top:env(safe-area-inset-top)}
+.top.solid{background:rgba(10,16,28,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(255,255,255,.06)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
+.logo{font-family:var(--display);font-weight:700;font-size:24px;color:#fff;text-decoration:none;letter-spacing:.03em;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:50% / 42%;border:2px solid var(--brass-2);display:inline-block;position:relative}
+.logo i::after{content:"";position:absolute;inset:5px;border-radius:inherit;background:linear-gradient(#7fb3e0,#cfe6f5)}
+.logo em{color:var(--brass-2);font-style:italic}
+.nav{display:flex;gap:26px;align-items:center}
+.nav a{color:#e8ebf1;text-decoration:none;font-size:14px;font-weight:600}
+.nav a:hover{color:var(--brass-2)}
+.nav .btn{padding:10px 16px;font-size:12.5px}
+
+/* hero */
+.hero{position:relative;min-height:min(100vh,860px);display:flex;align-items:flex-end;color:#fff;background:#0a101c;overflow:hidden}
+.hero-img{position:absolute;inset:0;background-size:cover;background-position:center 40%;transform:scale(1.06);animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{to{transform:scale(1.14) translateX(-2%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,18,.55) 0%,rgba(6,10,18,.15) 35%,rgba(6,10,18,.85) 100%)}
+.hero .wrap{position:relative;z-index:2;padding-block:140px 72px;width:100%}
+.hero .eyebrow{color:var(--brass-2)}
+.hero h1{font-size:clamp(52px,9vw,112px);margin:14px 0 18px;letter-spacing:-.01em}
+.hero p{font-size:clamp(17px,2vw,20px);max-width:54ch;color:#e3e7ee;margin:0 0 30px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.18);font-family:var(--mono);font-size:13px;color:#c9d0db}
+.hero-meta b{color:#fff;font-weight:500}
+
+/* boarding strip */
+.strip{background:var(--navy);color:#dfe4ec;overflow:hidden}
+.strip .row{display:flex;gap:42px;white-space:nowrap;padding:14px 0;font-family:var(--mono);font-size:13px;animation:marquee 40s linear infinite;width:max-content}
+.strip .row span b{color:var(--brass-2);font-weight:500;margin-right:8px}
+.strip .row .st{color:#9fd6a8;margin-left:8px}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* sections */
+section.block{padding-block:96px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.head h2{font-size:clamp(40px,5vw,60px);margin-top:10px}
+.head p{max-width:46ch;color:var(--muted);margin:0}
+
+/* destinos */
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
+.card{grid-column:span 2;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(15,29,54,.12)}
+.card.wide{grid-column:span 3}
+.card .ph{position:relative;aspect-ratio:4/3;overflow:hidden;background:#dfe6ee}
+.card.wide .ph{aspect-ratio:16/10}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.card:hover .ph img{transform:scale(1.05)}
+.card .iata{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:12px;font-weight:500;background:rgba(10,16,28,.75);color:#fff;padding:5px 9px;border-radius:5px;backdrop-filter:blur(4px)}
+.card .credit{position:absolute;bottom:8px;right:10px;font-size:10px;color:rgba(255,255,255,.8);text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.card .bd{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card .country{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-d)}
+.card h3{font-size:34px}
+.card .meta{font-size:13.5px;color:var(--muted)}
+.card .price{display:flex;align-items:baseline;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.card .price small{font-size:12px;color:var(--muted)}
+.card .price strong{font-family:var(--display);font-size:30px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+.card .acts{display:flex;gap:8px;flex-wrap:wrap}
+.card .acts .btn{padding:11px 14px;font-size:12px}
+.note{font-size:12.5px;color:var(--muted);margin-top:18px}
+
+/* experiencia */
+.exp{background:var(--ink);color:#e8ebf1;position:relative;overflow:hidden}
+.exp .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.28}
+.exp .wrap{position:relative}
+.exp .head h2{color:#fff}
+.exp .head p{color:#b9c1ce}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{background:rgba(10,16,28,.7);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px;backdrop-filter:blur(6px);counter-increment:s;display:flex;flex-direction:column;gap:8px}
+.steps li::before{content:"0" counter(s);font-family:var(--mono);font-size:12px;color:var(--brass-2)}
+.steps h3{font-size:26px;color:#fff}
+.steps p{margin:0;font-size:14.5px;color:#c3cad6}
+.exp .cta{margin-top:36px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.exp .cta span{font-size:13px;color:#aab3c2}
+
+/* contacto */
+.contact{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:start}
+.contact h2{font-size:clamp(40px,5vw,58px);margin:10px 0 14px}
+.contact p{color:var(--muted);margin:0 0 22px;max-width:44ch}
+.cinfo{display:flex;flex-direction:column;gap:12px;font-size:15px}
+.cinfo div{display:flex;gap:12px;align-items:baseline}
+.cinfo span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);min-width:90px}
+form{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;box-shadow:0 20px 50px rgba(15,29,54,.07)}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label,.field legend{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:0}
+.field input,.field select,.field textarea{font:inherit;font-size:15px;padding:11px 13px;border:1px solid #d3cbbb;border-radius:8px;background:#fff;color:var(--text);min-width:0}
+.field textarea{min-height:76px;resize:vertical}
+fieldset.field{border:0;margin:0;padding:0}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.checks label{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--text);padding:8px 12px;border:1px solid #d3cbbb;border-radius:8px;cursor:pointer}
+.checks input{accent-color:var(--navy)}
+.checks label:has(input:checked){border-color:var(--navy);background:#ece7dc}
+.consent{grid-column:1/-1;display:flex;gap:9px;font-size:13px;color:var(--muted)}
+.consent input{accent-color:var(--navy);margin-top:4px}
+.err{grid-column:1/-1;color:#a3261c;font-weight:600;font-size:14px;margin:0}
+form .btn{grid-column:1/-1;justify-content:center}
+.done{grid-column:1/-1;display:flex;flex-direction:column;gap:12px}
+.done h3{font-size:34px}
+.summary{font-family:var(--mono);font-size:13px;background:#f1ece2;border-radius:8px;padding:14px;white-space:pre-wrap;margin:0;overflow-wrap:anywhere}
+
+footer{background:var(--ink);color:#aab3c2;padding-block:48px calc(36px + env(safe-area-inset-bottom));font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer .logo{font-size:22px}
+footer small{display:block;margin-top:8px;font-size:12px;color:#7f8a9c}
+
+.wa-float{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:15;width:58px;height:58px;border-radius:50%;background:#1f7a4a;display:grid;place-items:center;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.wa-float[hidden]{display:none}
+.wa-float svg{width:28px;height:28px;color:#fff}
+
+@media (max-width:980px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .card,.card.wide{grid-column:span 1}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .contact{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .nav a:not(.btn){display:none}
+  .grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  form{grid-template-columns:1fr;padding:20px}
+  section.block{padding-block:68px}
+  .hero .wrap{padding-block:120px 48px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 5 5 0 0 0 1 2.6 11.3 11.3 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path fill="currentColor" d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#"><i aria-hidden="true"></i><span id="brand"></span></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#destinos">Destinos</a>
+      <a href="#experiencia">El vuelo virtual</a>
+      <a href="#contacto">Contacto</a>
+      <a class="btn btn-brass" href="./">Abordar</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-img" id="heroImg" role="img" aria-label="Nubes al amanecer vistas desde la ventanilla de un avión"></div>
+  <div class="wrap">
+    <span class="eyebrow">Agencia de viajes · Salidas desde Cali</span>
+    <h1 id="slogan">Viaje antes de viajar</h1>
+    <p>Aborde nuestro avión virtual, siéntese junto a la ventanilla y conozca cada destino con su paisaje, su música y su paquete completo. Cuando aterrice, un asesor le envía la cotización por WhatsApp.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-brass" href="./">Abordar el vuelo virtual <svg><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-line" href="#destinos">Ver destinos y precios</a>
+    </div>
+    <div class="hero-meta"><span><b>5</b> destinos</span><span><b>Vuelo</b> VT 2026</span><span><b>Asiento</b> 7A · Ventanilla</span><span><b>Duración</b> 3 minutos</span></div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"><div class="row" id="marquee"></div></div>
+
+<section class="block" id="destinos">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow">Destinos</span><h2>Paquetes con salida desde Cali</h2></div>
+      <p>Tiquetes, hotel, traslados y asistencia médica en un solo plan. Tarifas por persona en acomodación doble.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="note">Tarifas de referencia sujetas a disponibilidad, temporada y condiciones de cada proveedor. Fotografías: Unsplash.</p>
+  </div>
+</section>
+
+<section class="block exp" id="experiencia">
+  <div class="bg" id="expBg"></div>
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow" style="color:var(--brass-2)">El vuelo virtual</span><h2>Conozca su destino desde la ventanilla</h2></div>
+      <p>Una experiencia en primera persona para que usted y su familia elijan con calma el viaje que quieren hacer.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Aborde</h3><p>Le damos la bienvenida con su pase de abordar y le acompañamos por el pasillo hasta el asiento 7A.</p></li>
+      <li><h3>Despegue</h3><p>Levante la cortina de su ventanilla, sienta el despegue y suba sobre las nubes.</p></li>
+      <li><h3>Sobrevuele</h3><p>En cada destino el capitán le avisa dónde está, suena la música del lugar y ve el paquete con su tarifa.</p></li>
+      <li><h3>Aterrice</h3><p>Su tripulación le entrega la tarjeta de llegada para recibir la cotización por WhatsApp.</p></li>
+    </ol>
+    <div class="cta"><a class="btn btn-brass" href="./">Abordar ahora <svg><use href="#i-arrow"/></svg></a><span>Mejor con sonido · Computador o celular</span></div>
+  </div>
+</section>
+
+<section class="block" id="contacto">
+  <div class="wrap contact">
+    <div>
+      <span class="eyebrow">Cotización</span>
+      <h2>Hablemos de su próximo viaje</h2>
+      <p>Cuéntenos a dónde quiere ir y un asesor le responde por WhatsApp con fechas, hoteles y tarifas actualizadas.</p>
+      <div class="cinfo" id="cinfo"></div>
+    </div>
+    <form id="leadForm" novalidate>
+      <div class="field"><label for="fNombre">Nombre completo</label><input id="fNombre" name="nombre" autocomplete="name"></div>
+      <div class="field"><label for="fWhats">WhatsApp</label><input id="fWhats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+57 300 000 0000"></div>
+      <div class="field full"><label for="fEmail">Correo electrónico</label><input id="fEmail" name="correo" type="email" autocomplete="email" placeholder="nombre@correo.com"></div>
+      <fieldset class="field full"><legend>Destinos de interés</legend><div class="checks" id="checks"></div></fieldset>
+      <div class="field"><label for="fMes">Fecha estimada</label><select id="fMes" name="mes"></select></div>
+      <div class="field"><label for="fPax">Viajeros</label><select id="fPax" name="viajeros"><option>1 adulto</option><option selected>2 adultos</option><option>2 adultos + niños</option><option>3 adultos</option><option>4 adultos</option><option>Grupo de 5 o más</option></select></div>
+      <div class="field full"><label for="fNota">Observaciones (opcional)</label><textarea id="fNota" name="nota" placeholder="Luna de miel, viaje en familia, presupuesto aproximado…"></textarea></div>
+      <label class="consent"><input type="checkbox" id="fConsent" checked> Autorizo ser contactado por WhatsApp y correo para recibir esta cotización.</label>
+      <p class="err" id="err" hidden></p>
+      <button class="btn btn-navy" type="submit">Solicitar cotización</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><a class="logo" href="#" id="brand2"></a><small id="legal"></small></div>
+    <div><a href="./" style="color:var(--brass-2);font-weight:700;text-decoration:none">Abordar el vuelo virtual →</a><small>Fotografías de destinos: Unsplash.</small></div>
+  </div>
+</footer>
+<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp" hidden><svg><use href="#i-wa"/></svg></a>
+
+<script src="datos.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const [b1,...b2]=CONFIG.marca.split(" ");
+$("#brand").innerHTML=esc(b1)+(b2.length?" <em>"+esc(b2.join(" "))+"</em>":"");
+$("#brand2").innerHTML=$("#brand").innerHTML;
+$("#slogan").textContent=CONFIG.eslogan;
+document.title=`Paquetes · ${CONFIG.marca}`;
+$("#heroImg").style.backgroundImage=`url("${FOTOS.hero}")`;
+$("#expBg").style.backgroundImage=`url("${FOTOS.ala}")`;
+addEventListener("scroll",()=>$("#top").classList.toggle("solid",scrollY>40),{passive:true});
+
+// tablero de salidas
+const row=DESTS.map((d,i)=>`<span><b>VT ${201+i}</b>${d.name.toUpperCase()} · ${d.iata}<span class="st">A TIEMPO</span></span>`).join("");
+$("#marquee").innerHTML=row+row;
+
+// tarjetas
+$("#grid").innerHTML=DESTS.map((d,i)=>`
+ <article class="card${i<2?" wide":""}">
+  <div class="ph"><img src="${d.foto.replace("w=1600",i<2?"w=1200":"w=900")}" alt="${esc(d.name)}, ${esc(d.country)}" loading="lazy"><span class="iata">${d.iata}</span><span class="credit">${esc(d.credito||"")}</span></div>
+  <div class="bd">
+   <span class="country">${esc(d.country)} · ${esc(d.tag)}</span>
+   <h3>${esc(d.name)}</h3>
+   <span class="meta">${d.plan} · ${d.hotel} · ${d.regimen}</span>
+   <div class="price"><small>Desde</small><strong>${d.price}</strong><small>${d.cur} por persona</small></div>
+   <div class="acts"><a class="btn btn-navy" href="#contacto" data-dest="${d.id}">Cotizar</a><a class="btn" style="border-color:var(--line)" href="./">Verlo desde el avión</a></div>
+  </div>
+ </article>`).join("");
+document.querySelectorAll("[data-dest]").forEach(a=>a.addEventListener("click",()=>{ const c=document.querySelector(`#checks input[value="${a.dataset.dest}"]`); if(c) c.checked=true; }));
+
+// contacto
+const wa=waLink(`Hola, quiero información sobre los paquetes de ${CONFIG.marca}.`);
+$("#cinfo").innerHTML=[
+  CONFIG.whatsapp?`<div><span>WhatsApp</span><a href="${wa}" target="_blank" rel="noopener">+${CONFIG.whatsapp}</a></div>`:"",
+  CONFIG.correo?`<div><span>Correo</span><a href="mailto:${esc(CONFIG.correo)}">${esc(CONFIG.correo)}</a></div>`:"",
+  CONFIG.ciudad?`<div><span>Oficina</span>${esc(CONFIG.ciudad)}</div>`:""
+].join("");
+if(CONFIG.whatsapp){ $("#waFloat").href=wa; $("#waFloat").hidden=false; }
+$("#legal").textContent=`${CONFIG.ciudad}${CONFIG.rnt?" · RNT "+CONFIG.rnt:""} · © ${new Date().getFullYear()} ${CONFIG.marca}`;
+$("#checks").innerHTML=DESTS.map(d=>`<label><input type="checkbox" value="${d.id}"> ${esc(d.name)}</label>`).join("");
+const now=new Date(); let o=`<option value="">Aún no tengo fecha</option>`;
+for(let k=1;k<=12;k++){ const l=new Date(now.getFullYear(),now.getMonth()+k,1).toLocaleDateString("es-CO",{month:"long",year:"numeric"}); o+=`<option>${l[0].toUpperCase()+l.slice(1)}</option>`; }
+$("#fMes").innerHTML=o;
+$("#leadForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const f=e.currentTarget, err=$("#err");
+  const nombre=f.nombre.value.trim(), whats=f.whatsapp.value.replace(/[^\d+]/g,""), correo=f.correo.value.trim();
+  const destinos=[...f.querySelectorAll("#checks input:checked")].map(x=>DESTS.find(d=>d.id===x.value).name);
+  let m="";
+  if(nombre.length<3) m="Escriba su nombre completo.";
+  else if(whats.replace(/\D/g,"").length<7) m="Revise su número de WhatsApp: debe tener al menos 7 dígitos.";
+  else if(correo&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(correo)) m="El correo no tiene un formato válido.";
+  else if(!destinos.length) m="Seleccione al menos un destino.";
+  else if(!$("#fConsent").checked) m="Necesitamos su autorización para contactarle.";
+  if(m){ err.textContent=m; err.hidden=false; return; } err.hidden=true;
+  const lead={nombre,whatsapp:whats,correo,destinos,fecha_viaje:f.mes.value||"Sin definir",viajeros:f.viajeros.value,observaciones:f.nota.value.trim(),origen:"Página web",registrado:new Date().toISOString()};
+  await enviarLead(lead);
+  const txt=resumenLead(lead), w=waLink(txt);
+  f.innerHTML=`<div class="done"><span class="eyebrow">Solicitud recibida</span><h3>Gracias, ${esc(nombre.split(" ")[0])}</h3><p>Un asesor le escribirá por WhatsApp con su cotización.</p><pre class="summary">${esc(txt)}</pre>${w?`<a class="btn btn-wa" href="${w}" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Enviar por WhatsApp ahora</a>`:""}</div>`;
+});
+</script>
+</body>
+</html>
