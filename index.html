@@ -68,7 +68,10 @@ button{font-family:inherit;cursor:pointer}
 .pass-stub{border-left:1px dashed #b9ae99;padding:22px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;background:#ece6d9;position:relative}
 .seat-big{font-family:var(--display);font-weight:700;font-size:54px;line-height:.9;color:#9a7438}
 .barcode{height:80px;background:repeating-linear-gradient(90deg,#1b2333 0 2px,transparent 2px 4px,#1b2333 4px 5px,transparent 5px 8px,#1b2333 8px 11px,transparent 11px 13px,#1b2333 13px 14px,transparent 14px 17px)}
-.back-link{font-size:13px;color:#c9cfda}
+.back-link{font-size:13px;color:#aab3c2}
+.board-ring{width:132px;height:132px;border-radius:50%;border:1.5px solid var(--brass-2);background:radial-gradient(circle,rgba(200,163,106,.28),rgba(10,15,26,.55) 70%);color:#fff;display:grid;place-items:center;animation:pulse 2.2s ease-in-out infinite;backdrop-filter:blur(4px)}
+.board-ring span{font-weight:700;font-size:14px;letter-spacing:.26em;text-transform:uppercase;padding-left:.26em}
+.board-ring:hover{background:radial-gradient(circle,rgba(200,163,106,.45),rgba(10,15,26,.55) 70%)}
 .sound-note{font-size:13px;color:#c9cfda;display:flex;gap:8px;align-items:center}
 .sound-note svg{width:16px;height:16px;color:var(--brass-2)}
 
@@ -79,7 +82,7 @@ button{font-family:inherit;cursor:pointer}
 .hud-left{display:flex;align-items:center;gap:16px;min-width:0}
 .flight-id{font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
 .flight-id span{color:var(--brass-2)}
-.routebar{display:flex;align-items:center;gap:0;min-width:0}
+.routebar{display:none}
 .routebar .stop{font-family:var(--mono);font-size:10.5px;color:#7d889b;padding:0 2px;transition:color .4s}
 .routebar .stop.on{color:var(--brass-2)}
 .routebar .seg{width:34px;height:2px;background:#2a3550;position:relative;overflow:hidden;margin:0 4px}
@@ -137,6 +140,22 @@ button{font-family:inherit;cursor:pointer}
 .btn-link{background:none;border:0;color:#aab3c2;text-decoration:underline;text-underline-offset:3px;padding:2px 0;font-size:13px;align-self:flex-start}
 .btn-link:hover{color:#fff}
 
+/* ---------- Selector de destinos ---------- */
+#chooser{right:max(4vw,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);width:min(500px,44vw);max-height:calc(100% - 190px);overflow:auto;
+  background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+#chooser.hide{transform:translateY(-46%)}
+#chooser h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,3.4vw,42px);line-height:1;margin:0}
+.tabs{display:flex;gap:6px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:4px}
+.tabs button{flex:1;border:0;border-radius:7px;padding:10px;font-weight:700;font-size:13px;letter-spacing:.06em;background:transparent;color:#c9d0db}
+.tabs button[aria-selected="true"]{background:var(--brass);color:#1a1205}
+.dlist{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.dest{width:100%;display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;text-align:left;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:8px;color:var(--text);transition:background .2s,border-color .2s}
+.dest:hover{background:rgba(255,255,255,.1);border-color:rgba(226,196,143,.6)}
+.dest img{width:96px;height:68px;object-fit:cover;border-radius:7px;background:#1a2333}
+.dest strong{display:block;font-family:var(--display);font-size:22px;font-weight:600;line-height:1.1}
+.dest small{display:block;font-size:12px;color:var(--muted)}
+.dest .p{font-family:var(--mono);font-size:12px;color:var(--brass-2);white-space:nowrap;text-align:right}
+.dest .p em{display:block;font-style:normal;font-family:var(--body);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#7fd39a}
 /* ---------- Estado en ruta ---------- */
 #enroute{right:max(4vw,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);width:min(340px,40vw);background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
 #enroute h3{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.05;margin:0}
@@ -201,8 +220,10 @@ fieldset.field{border:0;margin:0;padding:0}
   .pass-grid{grid-template-columns:repeat(2,1fr)}
   .routebar,.metric.spd{display:none}
   .chip .hide-sm{display:none}
-  #pkg,#enroute,#arrival{left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));width:auto;top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:none;max-height:52%}
-  #pkg.hide,#enroute.hide{transform:translateY(20px)}
+  #pkg,#enroute,#chooser,#arrival{left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));width:auto;top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:none;max-height:52%}
+  #pkg.hide,#enroute.hide,#chooser.hide{transform:translateY(20px)}
+  .dest{grid-template-columns:76px minmax(0,1fr) auto}
+  .dest img{width:76px;height:56px}
   #arrival.hide{transform:translateY(40px)}
   #caption{bottom:auto;top:calc(64px + env(safe-area-inset-top,0px))}
   #pkg h2{font-size:32px}
@@ -231,46 +252,22 @@ fieldset.field{border:0;margin:0;padding:0}
 
 <canvas id="stage" class="dim" aria-label="Cabina del avión vista desde su asiento"></canvas>
 
-<!-- PASE DE ABORDAR -->
+<!-- ENTRADA -->
 <section id="intro" class="layer fadeable" aria-label="Bienvenida">
   <div class="intro-head">
     <div class="wordmark" id="wm1">Ventanilla Viajes</div>
-    <h1>Bienvenido, pasajero</h1>
-    <p>Aborde nuestro avión, siéntese junto a la ventanilla y conozca los destinos mientras vuela.</p>
+    <h1>Su vuelo está listo</h1>
+    <p>Suba a bordo, tome su asiento junto a la ventanilla y elija a dónde quiere viajar.</p>
   </div>
-  <div class="pass" role="group" aria-label="Pase de abordar">
-    <div class="pass-main">
-      <div class="pass-top"><div class="wm" id="wm2">Ventanilla Viajes</div><div class="label">Pase de abordar</div></div>
-      <div class="route">
-        <div><div class="code">CLO</div><div class="city">Cali, Colombia</div></div>
-        <div class="line" aria-hidden="true"></div>
-        <div style="text-align:right"><div class="code">CARIBE</div><div class="city">5 destinos</div></div>
-      </div>
-      <div class="pass-grid">
-        <div><span class="label">Vuelo</span><strong>VT 2026</strong></div>
-        <div><span class="label">Puerta</span><strong>07</strong></div>
-        <div><span class="label">Clase</span><strong>Ejecutiva</strong></div>
-        <div><span class="label">Embarque</span><strong id="boardTime">--:--</strong></div>
-      </div>
-      <div class="name-field">
-        <label class="label" for="pname">Nombre del pasajero</label>
-        <input id="pname" type="text" autocomplete="given-name" placeholder="Escriba su nombre" maxlength="40">
-      </div>
-      <button class="btn-board" id="boardBtn" type="button">Abordar el avión <svg><use href="#i-arrow"/></svg></button>
-    </div>
-    <div class="pass-stub">
-      <div><div class="label">Asiento</div><div class="seat-big">7A</div><div class="label">Ventanilla</div></div>
-      <div class="barcode" aria-hidden="true"></div>
-    </div>
-  </div>
-  <a href="paquetes.html" class="back-link">Ver todos los paquetes sin abordar</a>
-  <p class="sound-note"><svg><use href="#i-sound"/></svg>Active el sonido: música de cada destino y anuncios del capitán.</p>
+  <button class="board-ring" id="boardBtn" type="button" aria-label="Abordar el avión"><span>Abordar</span></button>
+  <p class="sound-note"><svg><use href="#i-sound"/></svg>Suba el volumen: el capitán le dará la bienvenida.</p>
+  <a href="paquetes.html" class="back-link">Ver los paquetes sin abordar</a>
 </section>
 
 <!-- HUD -->
 <header id="hud" class="layer fadeable hide">
   <div class="hud-left">
-    <div class="flight-id">VT 2026 <span>·</span> Ejecutiva 7A</div>
+    <div class="flight-id">VT 2026 <span>·</span> Asiento 7A</div>
     <div class="routebar" id="routebar"></div>
   </div>
   <div class="hud-right">
@@ -284,6 +281,7 @@ fieldset.field{border:0;margin:0;padding:0}
 
 <div id="caption" class="layer fadeable hide" aria-live="polite"><span class="pa">CABINA</span><p id="captionText"></p></div>
 
+<aside id="chooser" class="layer fadeable hide" aria-label="Elija su destino"></aside>
 <div id="prompt" class="layer fadeable hide">
   <div class="ring"><svg><use href="#i-up"/></svg></div>
   <button id="raiseBtn" type="button">Levantar la cortina</button>
@@ -331,8 +329,7 @@ function hhmm(d=new Date()){ return d.toLocaleTimeString("es-CO",{hour:"2-digit"
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 const show=(el,on=true)=>{ (typeof el==="string"?$(el):el).classList.toggle("hide",!on); };
 const icon=id=>`<svg><use href="#i-${id}"/></svg>`;
-$("#boardTime").textContent=hhmm(new Date(Date.now()+5*60000));
-$("#wm1").textContent=CONFIG.marca; $("#wm2").textContent=CONFIG.marca;
+$("#wm1").textContent=CONFIG.marca;
 const narrow=()=>innerWidth<760;
 
 /* ---------------- barra de ruta ---------------- */
@@ -397,6 +394,7 @@ const STYLES={
   cumbia:style({bpm:94,bar:16,lead:"flute",leadVol:.16,melody:"A5:3 G5:1 E5:4 r:2 E5:1 G5:1 A5:2 C6:2 | B5:3 A5:1 G5:4 E5:4 r:4 | A5:3 G5:1 E5:2 D5:2 C5:2 D5:2 E5:4 | D5:2 C5:2 B4:2 C5:2 A4:8",bass:"A2:4 r:2 E2:2 A2:4 E2:4 | E2:4 r:2 B2:2 E2:4 B1:4 | A2:4 r:2 E2:2 C3:4 G2:4 | E2:4 r:2 B2:2 A2:8",drums:{kick:[0,8],tom:[6,7,14,15],shaker:[0,2,3,4,6,7,8,10,11,12,14,15]}}),
   calypso:style({bpm:104,bar:16,lead:"pan",leadVol:.2,melody:"F5:2 A5:2 C6:3 A5:1 Bb5:2 A5:2 G5:4 | E5:2 G5:2 Bb5:3 G5:1 A5:2 G5:2 F5:4 | F5:2 A5:2 C6:2 D6:2 C6:2 A5:2 F5:2 G5:2 | A5:3 G5:1 E5:2 C5:2 F5:8",bass:"F2:3 F2:1 r:2 C3:2 F2:3 F2:1 A2:2 C3:2 | C2:3 C2:1 r:2 G2:2 C2:3 C2:1 E2:2 G2:2 | F2:3 F2:1 r:2 C3:2 Bb2:3 Bb2:1 D3:2 F3:2 | C3:3 C3:1 r:2 G2:2 F2:8",comp:{inst:"pluck",vol:.07,steps:[2,6,10,14],chords:[[65,69,72],[64,67,70],[65,70,74],[64,67,72]]},drums:{kick:[0,8],shaker:[0,2,4,6,8,10,12,14],clave:[3,6,10,12]}}),
   huapango:style({bpm:100,bar:12,lead:"trumpet",leadVol:.09,melody:"G5:2 B5:2 D6:2 C6:3 B5:1 A5:2 | B5:2 A5:2 G5:2 F#5:3 E5:1 D5:2 | E5:2 F#5:2 G5:2 A5:2 B5:2 C6:2 | B5:3 A5:1 F#5:2 G5:6",bass:"G2:6 D2:6 | D3:6 A2:6 | C3:6 A2:6 | D3:6 G2:6",comp:{inst:"pluck",vol:.09,steps:[0,2,4,6,8,10],chords:[[55,59,62],[54,57,62],[55,60,64],[54,57,62]]},drums:{kick:[0,6],clave:[3,9],shaker:[0,2,4,6,8,10]}}),
+  vallenato:style({bpm:112,bar:16,lead:"accordion",leadVol:.07,melody:"E5:2 G5:2 A5:2 B5:2 A5:2 G5:2 E5:4 | D5:2 E5:2 G5:2 A5:4 G5:2 E5:4 | E5:2 G5:2 A5:2 B5:2 D6:2 B5:2 A5:4 | G5:2 E5:2 D5:2 B4:2 E5:8",bass:"E2:4 B2:4 E2:4 B2:4 | D2:4 A2:4 D2:4 A2:4 | C2:4 G2:4 C2:4 G2:4 | B1:4 F#2:4 E2:8",drums:{kick:[0,8],tom:[3,6,11,14],shaker:[0,2,4,6,8,10,12,14]}}),
   merengue:style({bpm:126,bar:16,lead:"accordion",leadVol:.06,melody:"G5:1 A5:1 G5:1 E5:1 C5:2 E5:2 G5:2 G5:2 A5:2 G5:2 | F5:1 G5:1 F5:1 D5:1 B4:2 D5:2 F5:2 F5:2 G5:2 F5:2 | E5:1 F5:1 E5:1 C5:1 A4:2 C5:2 E5:2 G5:2 C6:2 A5:2 | G5:2 F5:2 E5:2 D5:2 C5:4 r:4",bass:"C3:2 r:2 G2:2 r:2 C3:2 r:2 G2:2 r:2 | G2:2 r:2 D3:2 r:2 G2:2 r:2 D3:2 r:2 | A2:2 r:2 E2:2 r:2 F2:2 r:2 C3:2 r:2 | G2:2 r:2 G2:2 r:2 C3:2 r:2 C3:2 r:2",drums:{kick:[0,8],tom:[4,10,12,13,14],shaker:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]}})
 };
 let curStyle=null, step=0, nextTime=0;
@@ -423,9 +421,15 @@ function pickVoice(){ try{ const v=speechSynthesis.getVoices().filter(x=>/^es/i.
 try{ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }catch(e){}
 function say(text,female=false){ if(!voiceOn) return; try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); const v=female?esVoiceF:esVoice; u.lang=v?.lang||"es-ES"; if(v) u.voice=v; u.rate=.98; u.pitch=female?1.1:.92;
   u.onstart=()=>{ if(AC&&musicOn) musicBus.gain.setTargetAtTime(.15,AC.currentTime,.2); if(audioEl&&musicOn) audioEl.volume=.2; }; u.onend=()=>musicLevel(); speechSynthesis.speak(u); }catch(e){} }
-function announce(text,speak=true){ $("#captionText").textContent=text; show("#caption"); chime(); if(speak) setTimeout(()=>say(text),1100); }
+let curVoz=null;
+function playVoz(key){ return new Promise(res=>{ if(!voiceOn||!key) return res();
+  try{ if(curVoz){ curVoz.pause(); } const a=new Audio(`voz/${key}.mp3`); curVoz=a;
+    a.onplaying=()=>{ if(AC&&musicOn) musicBus.gain.setTargetAtTime(.14,AC.currentTime,.2); if(audioEl&&musicOn) audioEl.volume=.18; };
+    a.onended=()=>{ if(curVoz===a) musicLevel(); res(); }; a.onerror=()=>res();
+    a.play().catch(()=>res()); }catch(e){ res(); } }); }
+function announce(text,key){ $("#captionText").textContent=text; show("#caption"); chime(); if(key) setTimeout(()=>playVoz(key),1100); }
 $("#musicBtn").onclick=e=>{ musicOn=!musicOn; e.currentTarget.setAttribute("aria-pressed",musicOn); musicLevel(); };
-$("#voiceBtn").onclick=e=>{ voiceOn=!voiceOn; e.currentTarget.setAttribute("aria-pressed",voiceOn); if(!voiceOn) try{speechSynthesis.cancel()}catch(_){} };
+$("#voiceBtn").onclick=e=>{ voiceOn=!voiceOn; e.currentTarget.setAttribute("aria-pressed",voiceOn); if(!voiceOn&&curVoz){ curVoz.pause(); musicLevel(); } };
 
 /* =========================================================
    PAISAJE EXTERIOR (shader) — se ve a través de las ventanillas
@@ -441,6 +445,10 @@ const SCN={
   ctg:scene({camH:2.6,land:-.06,coast:.09,relief:.18,cloud:.16,deep:"#1b4a6d",shallow:"#3c8a96",sand:"#d8c2a0",veg:"#55693a",rock:"#55693a",zen:"#2b3a74",hor:"#f2a46f",sunC:"#ffc185",sunEl:.11,sunAz:.25,haze:.03,cityAmt:.8,city:"#c69e78"}),
   adz:scene({camH:2.4,land:-.25,relief:.35,cloud:.2,bands:1,deep:"#07356b",shallow:"#72e4d6",sand:"#f4ead2",veg:"#2b7a39",rock:"#2b7a39",zen:"#1c74d4",hor:"#bfe5fb",sunEl:.95,haze:.02,cityAmt:.12,city:"#e9e3d6"}),
   cun:scene({camH:2.6,land:-.08,coast:.1,relief:.08,cloud:.18,deep:"#0b588e",shallow:"#41e0cf",sand:"#f8f1de",veg:"#4a7c3e",rock:"#4a7c3e",zen:"#2479d0",hor:"#cdeeff",sunEl:.85,haze:.022,cityAmt:.55,city:"#ebe8e1"}),
+  smr:scene({camH:2.6,land:-.04,coast:.1,relief:.9,cloud:.2,deep:"#0c4f86",shallow:"#3fc4c8",sand:"#e9d9b4",veg:"#2f6f2c",rock:"#46613a",zen:"#2a78cf",hor:"#cfe8f5",sunEl:.75,haze:.025,cityAmt:.2,city:"#d9cbb3"}),
+  mde:scene({camH:3,land:.5,relief:1,cloud:.3,cloudH:1.6,deep:"#2f4f45",shallow:"#46705d",sand:"#8a7458",veg:"#3a6e33",rock:"#4d5a3f",zen:"#3a7cc2",hor:"#d6e2ea",sunEl:.5,haze:.03,cityAmt:.75,city:"#b77e5c"}),
+  aua:scene({camH:2.3,land:-.22,relief:.15,cloud:.12,deep:"#0a4f8f",shallow:"#58e0d2",sand:"#f6eedb",veg:"#8a9a5b",rock:"#a39a72",zen:"#2384d8",hor:"#c9ecfb",sunEl:.95,haze:.02,cityAmt:.25,city:"#efe8db"}),
+  pty:scene({camH:2.6,land:-.04,coast:.1,relief:.3,cloud:.3,deep:"#164f72",shallow:"#3b8c8f",sand:"#cdbb98",veg:"#2f6a35",rock:"#2f6a35",zen:"#2c6fb8",hor:"#d3e3ee",sunEl:.45,haze:.03,cityAmt:.9,city:"#c9ccd1"}),
   puj:scene({camH:2.4,land:-.1,coast:.09,relief:.12,cloud:.24,deep:"#0a5b92",shallow:"#4bdccf",sand:"#f6ecd3",veg:"#2d7b35",rock:"#2d7b35",zen:"#2a7dcf",hor:"#d2efff",sunEl:.8,haze:.022,cityAmt:.15,city:"#e7dfd0"}),
   arrival:scene({camH:.035,land:.7,relief:.05,cloud:.3,cloudH:1.6,runway:1,veg:"#4c6a3c",rock:"#4c6a3c",zen:"#34407c",hor:"#f1b384",sunC:"#ffcb94",sunEl:.07,sunAz:-.35,haze:.09})
 };
@@ -668,75 +676,90 @@ let flow=0;
 function toast(msg){ const el=$("#toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("show"),3800); }
 function hidePanels(){ show("#pkg",false); show("#enroute",false); show("#prompt",false); }
 
+let airborne=false, visited=new Set(), chooserTab="nacional";
 $("#boardBtn").onclick=async()=>{
-  passenger=$("#pname").value.trim(); if(passenger) $("#fNombre").value=passenger;
-  initAudio(); if(AC&&AC.state==="suspended") AC.resume(); try{ speechSynthesis.getVoices(); }catch(e){}
+  initAudio(); if(AC&&AC.state==="suspended") AC.resume();
   show("#intro",false); setTimeout(()=>$("#intro").style.display="none",800);
   canvas.classList.remove("dim"); show("#hud"); engine(.03,160,1); playStyle("cruise");
-  const hi=passenger?`Bienvenido a bordo, ${passenger}.`:"Bienvenido a bordo, pasajero.";
-  announce(`${hi} Su asiento es el 7A, junto a la ventanilla. Por favor, siga por el pasillo.`);
+  $("#captionText").textContent="Su asiento es el 7A, junto a la ventanilla."; show("#caption");
   await tweenCam([0,1.66,myZ()-.35],[0,1.5,myZ()+9],reduceMotion?400:6500,t=>t,9);
   await tweenCam([-.35,1.6,myZ()+.25],[WIN_X,1.25,myZ()-.1],1400);
   await tweenCam(POSE.seated().pos,POSE.seated().look,1700);
-  announce("Le habla su capitán. Hoy sobrevolaremos cinco destinos del Caribe y Colombia. Levante la cortina de su ventanilla para comenzar.");
-  show("#prompt");
-};
-async function raiseShade(){
-  if(raiseShade.done) return; raiseShade.done=true; show("#prompt",false);
   const t0=performance.now(); await new Promise(res=>{ (function an(){ const p=Math.min(1,(performance.now()-t0)/1600); shadeGroup.scale.y=1-.95*ease(p); if(p<1) requestAnimationFrame(an); else res(); })(); });
-  const my=++flow;
-  enroute(`<span class="eyebrow">Carreteo</span><h3>Prepárese para el despegue</h3><p>Mantenga su cinturón abrochado y mire por la ventanilla.</p><div class="progress"><i id="prog"></i></div>`);
-  await wait(1500); if(my!==flow) return;
-  announce("Tripulación de cabina, preparados para el despegue.");
-  V.speedT=.006; V.shakeT=.6; engine(.1,300);
-  await wait(3000); if(my!==flow) return;
-  V.speedT=.09; V.shakeT=2.2; V.leanT=-.02; engine(.26,950,1.5); setP(35);
-  await wait(3600); if(my!==flow) return;
-  V.pitchT=-.02; V.rollT=-.03; V.leanT=.035; V.shakeT=.9; setP(60);
-  setScene("cruise",11); V.speedT=.3;
-  await wait(6000); if(my!==flow) return;
-  engine(.1,320,4); V.shakeT=.35; setP(85);
-  await wait(4500); if(my!==flow) return;
-  V.pitchT=.2; V.rollT=0; V.leanT=0; V.shakeT=.15; setP(100);
-  announce("Hemos alcanzado nuestra altitud de crucero. Disfrute del vuelo.",false);
-  await wait(1400); if(my!==flow) return;
-  continueFlight(0,true);
+  engine(.05,180);
+  announce("Bienvenido a bordo. Le habla su capitán. Hoy usted elige a dónde viajar: conozca nuestros destinos nacionales e internacionales y seleccione el que más le guste.","bienvenida");
+  setTimeout(()=>openChooser("nacional"),3200);
+};
+function openChooser(tab=chooserTab){
+  chooserTab=tab; hidePanels();
+  const list=DESTS.map((d,i)=>({d,i})).filter(x=>x.d.tipo===tab);
+  const nN=DESTS.filter(d=>d.tipo==="nacional").length, nI=DESTS.length-nN;
+  $("#chooser").innerHTML=`
+    <span class="eyebrow">${airborne?"En vuelo · Elija su próximo destino":"Antes del despegue"}</span>
+    <h2>¿A dónde quiere volar?</h2>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="nacional" aria-selected="${tab==="nacional"}">Nacionales · ${nN}</button>
+      <button type="button" role="tab" data-tab="internacional" aria-selected="${tab==="internacional"}">Internacionales · ${nI}</button>
+    </div>
+    <ul class="dlist">${list.map(({d,i})=>`<li><button type="button" class="dest" data-i="${i}">
+      <img src="${esc(d.foto.replace("w=1600","w=300"))}" alt="" loading="lazy">
+      <span><strong>${esc(d.name)}</strong><small>${esc(d.country)} · ${esc(d.plan)}</small></span>
+      <span class="p">${visited.has(d.id)?"<em>Visitado</em>":""}desde<br>${d.price}${d.cur?" "+d.cur:""}</span></button></li>`).join("")}</ul>
+    ${(wish.size||visited.size)?`<button class="btn-link" id="landNow" type="button">Ya elegí, deseo aterrizar y recibir mi cotización</button>`:""}`;
+  $("#chooser").scrollTop=0; show("#chooser");
+  $("#chooser").querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>openChooser(b.dataset.tab));
+  $("#chooser").querySelectorAll(".dest").forEach(b=>b.onclick=()=>flyTo(+b.dataset.i));
+  const ln=$("#landNow"); if(ln) ln.onclick=()=>land();
+  DESTS.filter(d=>d.tipo===tab).forEach(d=>loadPhoto(d.foto));
 }
-$("#raiseBtn").onclick=raiseShade;
-canvas.addEventListener("click",()=>{ if(!$("#prompt").classList.contains("hide")) raiseShade(); });
-function setP(v){ const p=$("#prog"); if(p) p.style.width=v+"%"; }
-function enroute(html){ $("#enroute").innerHTML=html; show("#enroute"); }
-
-async function continueFlight(i,first=false){
-  const my=++flow;
-  if(!first){ toast("Continúe su vuelo conociendo más lugares que le interesen"); announce("Continúe su vuelo conociendo más lugares que le interesen."); }
-  V.photoT=0; show("#pkg",false); setScene("cruise",4);
-  if(DESTS[i]) loadPhoto(DESTS[i].foto); V.speedT=.3; V.pitchT=.2; V.shakeT=.15; playStyle("cruise");
-  tweenCam(POSE.seated().pos,POSE.seated().look,2200);
-  const d=DESTS[i], legMs=(reduceMotion?3:CONFIG.legSeconds)*1000, start=performance.now(), from=routePos;
+async function takeoff(my){
+  enroute(`<span class="eyebrow">Carreteo</span><h3>Prepárese para el despegue</h3><p>Mantenga su cinturón abrochado y mire por la ventanilla.</p><div class="progress"><i id="prog"></i></div>`);
+  await wait(2600); if(my!==flow) return;
+  announce("Tripulación de cabina, preparados para el despegue.","despegue");
+  V.speedT=.006; V.shakeT=.6; engine(.1,300);
+  await wait(2600); if(my!==flow) return;
+  V.speedT=.09; V.shakeT=2.2; V.leanT=-.02; engine(.26,950,1.5); setP(35);
+  await wait(3200); if(my!==flow) return;
+  V.pitchT=-.02; V.rollT=-.03; V.leanT=.035; V.shakeT=.9; setP(60);
+  setScene("cruise",9); V.speedT=.3;
+  await wait(5000); if(my!==flow) return;
+  engine(.1,320,4); V.shakeT=.35; setP(85);
+  await wait(3500); if(my!==flow) return;
+  V.pitchT=.2; V.rollT=0; V.leanT=0; V.shakeT=.15; setP(100); $("#beltSign")?.classList.remove("lit");
+  airborne=true;
+  announce("Hemos alcanzado nuestra altitud de crucero. Muy pronto llegaremos a su destino.","crucero");
+  await wait(1200);
+}
+async function flyTo(i){
+  const my=++flow, d=DESTS[i]; hidePanels(); loadPhoto(d.foto);
+  announce(`Excelente elección. Ponemos rumbo a ${d.name}.`,"rumbo_"+d.id);
+  if(!airborne){ await wait(2400); if(my!==flow) return; await takeoff(my); if(my!==flow) return; }
+  else { V.photoT=0; setScene("cruise",4); V.speedT=.3; V.pitchT=.2; V.shakeT=.15; playStyle("cruise"); tweenCam(POSE.seated().pos,POSE.seated().look,2200); }
+  const legMs=(reduceMotion?3:CONFIG.legSeconds)*1000, start=performance.now();
   enroute(`<span class="eyebrow">En ruta · Altitud de crucero</span><h3>Próximo destino: ${esc(d.name)}</h3>
-    <p>Llegaremos sobre ${esc(d.country)} en <span class="countdown" id="cd">--</span>.</p><div class="progress"><i id="prog"></i></div>
-    ${wish.size?`<button class="btn-link" id="landNow2" type="button">Ya elegí mis destinos, deseo aterrizar</button>`:""}`);
-  if(wish.size) $("#landNow2").onclick=()=>land();
+    <p>Llegaremos sobre ${esc(d.country)} en <span class="countdown" id="cd">--</span>.</p><div class="progress"><i id="prog"></i></div>`);
   let bumped=false;
-  while(true){ if(my!==flow) return; const p=Math.min(1,(performance.now()-start)/legMs); setRoute(lerp(from,i+1,p));
-    if(!bumped&&p>.45&&i%2===0){ bumped=true; V.shakeT=1.4; setTimeout(()=>{ if(my===flow) V.shakeT=.15; },1600); }
+  while(true){ if(my!==flow) return; const p=Math.min(1,(performance.now()-start)/legMs);
+    if(!bumped&&p>.4){ bumped=true; V.shakeT=1.3; setTimeout(()=>{ if(my===flow) V.shakeT=.15; },1500); }
     const cd=$("#cd"); if(cd) cd.textContent=`00:${String(Math.ceil((1-p)*legMs/1000)).padStart(2,"0")}`; setP(p*100);
     if(p>=1) break; await wait(200); }
   arriveAt(i);
 }
+function setP(v){ const p=$("#prog"); if(p) p.style.width=v+"%"; }
+function enroute(html){ $("#enroute").innerHTML=html; show("#enroute"); }
+function hidePanels(){ ["#pkg","#enroute","#prompt","#chooser"].forEach(x=>show(x,false)); }
 function arriveAt(i){
-  const d=DESTS[i]; ++flow; show("#enroute",false);
+  const d=DESTS[i]; ++flow; show("#enroute",false); visited.add(d.id);
   setScene(d.id,5); V.speedT=.16; playStyle(d.style,d.musica);
   const myf=flow; loadPhoto(d.foto).then(t=>{ if(!t||myf!==flow) return; landMat.uniforms.uPhoto.value=t; landMat.uniforms.uPhotoAsp.value=t.image.width/t.image.height; setTimeout(()=>{ if(myf===flow) V.photoT=1; },1600); });
-  announce(`Estamos sobrevolando ${d.country}. Conozca ${d.name}. ${d.tag}.`);
+  announce(`Estamos sobrevolando ${d.country}. Bienvenido a ${d.name}. ${d.tag}.`,"dest_"+d.id);
   tweenCam(POSE.window().pos,POSE.window().look,2600);
-  setTimeout(()=>showPackage(i),1400);
+  setTimeout(()=>{ if(myf===flow) showPackage(i); },1400);
 }
 function showPackage(i){
-  const d=DESTS[i], last=i===DESTS.length-1, on=wish.has(d.id);
+  const d=DESTS[i], on=wish.has(d.id);
   $("#pkg").innerHTML=`
-    <span class="eyebrow">Sobrevolando ${esc(d.country)} · ${esc(d.tag)}</span>
+    <span class="eyebrow">${d.tipo==="nacional"?"Destino nacional":"Destino internacional"} · ${esc(d.country)}</span>
     <h2>${esc(d.name)}</h2>
     ${d.foto?`<div class="pkg-photo"><img src="${esc(d.foto.replace("w=1600","w=900"))}" alt="${esc(d.name)}, ${esc(d.country)}"><span>${esc(d.credito||"")}</span></div>`:""}
     <p>${esc(d.intro)}</p>
@@ -746,32 +769,34 @@ function showPackage(i){
     <p class="disclaimer">Tarifa de referencia con salida desde Cali, sujeta a disponibilidad y temporada.</p>
     <div class="actions">
       <button class="btn btn-ghost btn-add" id="addBtn" type="button" aria-pressed="${on}">${on?icon("check")+"Agregado a mi viaje":icon("plus")+"Agregar a mi viaje"}</button>
-      <button class="btn btn-primary" id="contBtn" type="button">${last?"Aterrizar":"Continuar el vuelo"} ${icon("arrow")}</button>
+      <button class="btn btn-primary" id="contBtn" type="button">Conocer otro destino ${icon("arrow")}</button>
     </div>
-    ${last?"":`<button class="btn-link" id="landNow" type="button">Ya elegí mis destinos, deseo aterrizar</button>`}`;
+    <button class="btn-link" id="landBtn" type="button">Aterrizar y recibir mi cotización</button>`;
   $("#pkg").scrollTop=0; show("#pkg");
   $("#addBtn").onclick=e=>{ const b=e.currentTarget;
     if(wish.has(d.id)){ wish.delete(d.id); b.setAttribute("aria-pressed","false"); b.innerHTML=icon("plus")+"Agregar a mi viaje"; }
     else { wish.add(d.id); b.setAttribute("aria-pressed","true"); b.innerHTML=icon("check")+"Agregado a mi viaje"; toast(`${d.name} se agregó a su viaje`); }
     $("#wishCount").textContent=wish.size; };
-  $("#contBtn").onclick=()=>last?land():continueFlight(i+1);
-  if(!last) $("#landNow").onclick=()=>land();
+  $("#contBtn").onclick=()=>{ ++flow; V.photoT=0; show("#pkg",false); setScene("cruise",4); playStyle("cruise"); tweenCam(POSE.seated().pos,POSE.seated().look,2200);
+    toast("Continúe su vuelo conociendo más lugares que le interesen"); announce("Continúe su vuelo conociendo más lugares que le interesen.","continuar");
+    setTimeout(()=>openChooser(d.tipo),1200); };
+  $("#landBtn").onclick=()=>land();
 }
 async function land(){
-  const my=++flow; hidePanels(); V.photoT=0;
-  announce("Iniciamos nuestro descenso. Por favor, abroche su cinturón y ponga el espaldar de su silla en posición vertical.");
+  const my=++flow; hidePanels(); V.photoT=0; $("#beltSign")?.classList.add("lit");
+  announce("Iniciamos nuestro descenso. Por favor, abroche su cinturón.","descenso");
   tweenCam(POSE.seated().pos,POSE.seated().look,2200);
   enroute(`<span class="eyebrow">Descenso</span><h3>Preparando el aterrizaje</h3><p>Su tripulación está preparando su tarjeta de llegada.</p><div class="progress"><i id="prog"></i></div>`);
   playStyle("cruise"); V.speedT=.25; V.pitchT=.26; V.rollT=.03; V.shakeT=.8; engine(.1,360,2);
-  setScene("arrival",8); setRoute(Math.max(routePos,STOPS.length-1.2));
+  setScene("arrival",8);
   await wait(4500); if(my!==flow) return; setP(60); V.rollT=0; V.speedT=.07; V.shakeT=.5;
   await wait(3500); if(my!==flow) return; V.shakeT=2.6; setP(90);
-  await wait(900); if(my!==flow) return; V.shakeT=.8; V.leanT=.03; V.speedT=.02; setRoute(STOPS.length-1); setP(100);
+  await wait(900); if(my!==flow) return; V.shakeT=.8; V.leanT=.03; V.speedT=.02; setP(100);
   await wait(1500); if(my!==flow) return; V.shakeT=0; V.leanT=0; V.speedT=0; V.pitchT=.2; engine(.03,150,3);
   show("#enroute",false);
-  announce(`Hemos llegado. ${passenger?passenger+", gracias":"Gracias"} por volar con ${CONFIG.marca}.`);
+  announce(`Hemos llegado. Gracias por volar con ${CONFIG.marca}.`,"llegada");
   const fav=DESTS.find(x=>wish.has(x.id)); playStyle(fav?fav.style:"merengue",fav?fav.musica:"");
-  await wait(2600); if(my!==flow) return;
+  await wait(3000); if(my!==flow) return;
   await tweenCam(POSE.aisle().pos,POSE.aisle().look,1800);
   openCard();
 }
@@ -786,13 +811,11 @@ function openCard(){
   sel.innerHTML=o;
   $("#stampDate").textContent="ARRIBO · "+new Date().toLocaleDateString("es-CO",{day:"2-digit",month:"short"}).toUpperCase().replace(".","");
   const name=(CONFIG.azafata&&CONFIG.azafata.nombre)||"Su tripulación";
-  const msg = chosen.length
-    ? `Bienvenido${passenger?", "+passenger:""}. Soy ${name}, de su tripulación. Vi que le interesaron ${chosen.map(d=>d.name).join(", ").replace(/, ([^,]*)$/," y $1")}. Por favor, complete su tarjeta de llegada y un asesor le enviará la cotización.`
-    : `Bienvenido${passenger?", "+passenger:""}. Soy ${name}, de su tripulación. Complete su tarjeta de llegada y un asesor le ayudará a elegir su destino.`;
+  const msg = "Bienvenido a su destino. Por favor, complete su tarjeta de llegada y uno de nuestros asesores le enviará su cotización por WhatsApp.";
   const az=CONFIG.azafata||{};
   $("#crewMedia").innerHTML = az.video ? `<video src="${esc(az.video)}" autoplay playsinline muted loop></video>` : `<img src="${esc(az.foto||FOTOS.cabina)}" alt="Tripulación de cabina">`;
   $("#crewName").textContent=`${name} · Tripulación ${CONFIG.marca}`; $("#greetMsg").textContent=msg;
-  show("#caption",false); say(msg,true);
+  show("#caption",false); playVoz("azafata");
   setTimeout(()=>show("#arrival"),500);
 }
 $("#leadForm").addEventListener("submit",async e=>{
@@ -816,7 +839,7 @@ $("#leadForm").addEventListener("submit",async e=>{
     <div class="row">${wa?`<a class="btn btn-dark" href="${wa}" target="_blank" rel="noopener">Continuar por WhatsApp</a>`:""}
       <button class="btn btn-out" id="copyBtn" type="button">Copiar resumen</button><button class="btn btn-out" id="againBtn" type="button">Volver a volar</button><a class="btn btn-out" href="paquetes.html">Ver todos los paquetes</a></div></div>`;
   $("#greetMsg").textContent="Muchas gracias. Ha sido un placer tenerle a bordo. Le esperamos en su próximo viaje.";
-  say("Muchas gracias. Ha sido un placer tenerle a bordo. Le esperamos en su próximo viaje.",true);
+  playVoz("gracias");
   $("#copyBtn").onclick=async ev=>{ const b=ev.currentTarget; try{ await navigator.clipboard.writeText(resumen); b.textContent="Copiado"; }catch(_){ const r=document.createRange(); r.selectNodeContents($("#sumText")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent="Texto seleccionado"; } };
   $("#againBtn").onclick=()=>location.reload();
 });

@@ -280,8 +280,8 @@ $("#marquee").innerHTML=row+row;
 
 // tarjetas
 $("#grid").innerHTML=DESTS.map((d,i)=>`
- <article class="card${i<2?" wide":""}">
-  <div class="ph"><img src="${d.foto.replace("w=1600",i<2?"w=1200":"w=900")}" alt="${esc(d.name)}, ${esc(d.country)}" loading="lazy"><span class="iata">${d.iata}</span><span class="credit">${esc(d.credito||"")}</span></div>
+ <article class="card">
+  <div class="ph"><img src="${d.foto.replace("w=1600","w=900")}" alt="${esc(d.name)}, ${esc(d.country)}" loading="lazy"><span class="iata">${d.iata}</span><span class="credit">${esc(d.credito||"")}</span></div>
   <div class="bd">
    <span class="country">${esc(d.country)} · ${esc(d.tag)}</span>
    <h3>${esc(d.name)}</h3>
